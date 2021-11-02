@@ -1,0 +1,38 @@
+//MEMORY ACCESS 
+module memoryAccess(
+//DATAMEMORY
+module dataMemory(clock, inAddress, inWriteData, controlMemRead, controlMemWrite, outReadData); 
+	input clock; 
+	input [63:0] inAddress,inWriteData; 
+	input controlMemRead,controlMemWrite; 
+	output reg[63:0] outReadData; 
+	
+	reg[63:0] memory [63:0]; 
+	
+	//initialiasatie
+	integer i; 
+	initial begin 
+		for(i = 0; i<64; i = i + 1) begin	
+			memory[i] = 0; 
+		end 
+	end 
+	
+	//write of read 
+	//als read is: in memory zoeken
+	//als write is: wegschrijven in memory 
+	always@(posedge clock )
+	begin
+		if(controlMemWrite == 1)
+			begin memory[inAddress] <= inWriteData; 
+		end 
+	end 
+	
+	always@(controlMemRead or inAddress or controlMemWrite or inWriteData)
+	begin 
+		if(controlMemRead == 1) 
+			begin outReadData<= memory[inAddress]; 
+		end 
+	end 
+	
+endmodule
+

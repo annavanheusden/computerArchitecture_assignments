@@ -1,0 +1,12 @@
+Het datapath bestaat uit 5 verschillende fases: die elk aangestuurd worden door de control. 
+In het eerste deel: INSTRUCTION FETCH bestaat uit 3 modules 
+	mux module: kiest welke instructie wordt aangestuurd: een volgende of een vorige (dit wordt bepaald aan de hand van de control PCnext)
+	instruction memory module: opslaan instructies en aan de hand van bepaald adres instructie meegeven 
+	=> program counter: houdt het adres van de huidige instructie bij 
+	add module: voor stijging van de PC zodat die naar volgend adres gaat (4bytes later) 
+	
+In het tweede deel: INSTRUCTION DECODE bestaat uit 3 modules 
+	registers: aan de hand van de instructie gaat de registerfile (bestaande uit meerdere registers) 
+				met behulp van control data lezen of wegschrijven aan de hand van het nummer van de registerfile 
+	signExtend: omdat de instructie 32 bits is en het address 64 bits wordt het aantal bits hier vergroot zodat het samen met de 
+	mux: 

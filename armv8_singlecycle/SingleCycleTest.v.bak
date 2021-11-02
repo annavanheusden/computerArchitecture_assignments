@@ -1,0 +1,21 @@
+//TESTBENCH 
+module CPUtest(); 
+	reg clock = 0; 
+	
+	//CPU aansturen met klok
+	SingleCycle singleCycle(.clock(clock)); 
+	
+	always 
+		begin 
+		#10 
+			clock = !clock; 
+		end
+	
+	initial 
+		begin 
+		$readmemb("./Memory/instructions.bin", SingleCycleTest.InstructionMemory.memory);
+		$readmemb("./Memory/datamem.bin", SingleCycleTest.DataMemory.Data_Access.memory);
+		$readmemb("./Memory/registers.bin", SingleCycleTest.register.memory);
+		end
+endmodule
+			
