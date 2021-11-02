@@ -1,0 +1,180 @@
+module datapath(clock) ;
+	input clock; 
+	//wires voor control signaal van control naar IDEX
+	wire RegWriteControlIDEX; 
+	wire MemReadControlIDEX; 
+	wire MemWriteControlIDEX; 
+	wire BranchControlIDEX; 
+	wire MemtoRegControlIDEX; 
+	wire AluSrcControlIDEX; 
+	wire UnCondBranchControlIDEX; 
+	wire [3:0] ALUopControlIDEX; 
+	//wires voor controlsignaal van IDEX naar EXMEM
+	wire RegWriteIDEX_EXMEM; 
+	wire MemReadIDEX_EXMEM; 
+	wire MemWriteIDEX_EXMEM; 
+	wire BranchIDEX_EXMEM; 
+	wire MemtoRegIDEX_EXMEM; 
+	wire AluSrcIDEX_EX; 
+	wire UnCondBranchIDEX_EXMEM; 
+	wire [3:0] ALUopIDEX_EX; 
+	wire [4:0] writeRegIDEX_EXMEM; 
+	//wires voor controlsignaal van EXMEM naar MEM(WB)
+	wire RegWriteEXMEM_MEMWB; 
+	wire MemReadEXMEM_MEM; 
+	wire MemWriteEXMEM_MEM; 
+	wire BranchEXMEM_MEM; 
+	wire MemtoRegEXMEM_MEMWB; 
+	wire AluSrcEXMEM_MEMWB; 
+	wire UnCondBranchEXMEM_MEMWB; 
+	wire [3:0] ALUopEXMEM_MEMWB; 
+	wire [4:0] writeRegEXMEM_MEMWB; 
+	//MemToReg en RegWrite en writeReg wires van MEMWB pipeline register naar WB en ID 
+	wire MemtoRegMEMWB_WB; 
+	wire RegWriteMEMWB_ID; 
+	wire writeRegMEMWB_ID; 
+
+	
+	wire [31:0] instructionIF_IFID; 
+	wire [31:0] instructionIFID_ID; 
+	
+	wire [63:0] PC_IF_IFID;
+	wire [63:0] PC_IFID_IDEX; 
+	wire [63:0] PC_IDEX_EX; 
+	wire [63:0] PCSrc; 
+	wire PCSrc_MEM_IF; 
+	
+	wire [63:0] RegData1;
+	wire [63:0] RegData2;
+	wire [63:0] signExtended; 
+	wire [63:0] ALUresult; 
+	wire [63:0] DataMemWrite; 
+	wire [63:0] DataMemRead; 
+	wire [63:0] DataAddress; 
+	wire [63:0] writeBack; 
+	wire ALUzeroEX_EXMEM; 
+	wire ALUzeroEXMEM_MEM; 
+
+	wire addEX_EXMEM;
+	wire addEXMEM_ID; 
+	
+
+	//verschillende fases linken
+	InstructionFetch IF(.clock(clock),
+				 PCbranch(addEXMEM_ID),
+				.PC(PC_IF_IFID), 
+				.instruction(instructionIF_IFID), 
+				.controlPCnext(PCSrc_MEM_IF)); 
+
+
+	IFID IFID(.clock(clock),
+		.PCin(PC_IF_IFID), 
+		.PCout(PC_IFID_IDEX), 
+		.instructIn(instructionIF_IFID), 
+		.instructOut(instructionIFID_ID));
+
+	InstructionDecoder ID(.clock(clock), 
+		.instruction(instructionIFID_ID), 
+		.controlRegWrite(RegWriteControlIDEX), 
+		.signExtendOut(signExtended), 
+		.readData1(RegData1), 
+		.readData2(RegData2), 
+		.writeData(writeBack), 
+		.writeRegIN(writeRegMEMWB_ID)); 
+
+
+	IDEX IDEX(.clock(clock), 
+		.PCin(PC_IFID_IDEX), 
+		.PCout(PC_IDEX_EX), 
+		.readData1In(RegData1),
+		.readData1Out(RegData1),
+		.readData2In(RegData2), 
+		.readData2Out(RegData2), 
+		.signExtendIn(signExtended), 
+		.signExtendOut(signExtended), 
+		.writeRegIn(instructionIFID_ID[4:0]), 
+		.writeRegOut(writeRegIDEX_EXMEM),
+		.RegWriteIn(RegWriteControlIDEX), 
+		.BranchIn(BranchControlIDEX), 
+		.MemToRegIn(BranchControlIDEX), 
+		.AluSrcIn(AluSrcControlIDEX), 
+		.ALUOpIn(ALUopControlIDEX),
+		.RegWriteOut(RegWriteIDEX_EXMEM), 
+		.BranchOut(BranchIDEX_EXMEM), 
+		.MemToRegOut(MemtoRegIDEX_EXMEM), 
+		.AluSrcOut(AluSrcIDEX_EX), 
+		.ALUOpOut(ALUopIDEX_EX)); 
+
+	Execute EX(.signExtended(signExtended), 
+		.readData1(RegData1), 
+		.readData2(RegData2), 
+		.PC(PC_IDEX_EX), 
+		.PCbranch(addEX_EXMEM), 
+		.ALUzero(ALUzeroEX_EXMEM), 
+		.ALUresult(ALUresult), 
+		.writeData(DataMemWrite), 
+		.control_ALUsrc(AluSrcIDEX_EX), 
+		.ALUoperation(ALUopIDEX_EX));
+
+	EXMEM EXMEM(.clock(clock), 
+		.PCSrcIn(addEX_EXMEM), 
+		.PCSrcOut(addEXMEM_ID), 
+		.ALUzeroIn(ALUzeroEX_EXMEM), 
+		.ALUzeroOut(ALUzeroEXMEM_MEM), 
+		.ALUresultIn(ALUresult), 
+		.ALUresultOut(ALUresult), 
+		.writeDataIn(DataMemWrite), 
+		.writeDataOut(DataMemWrite), 
+		.writeRegIn(writeRegIDEX_EXMEM), 
+		.writeRegOut(writeRegEXMEM_MEMWB), 
+		.RegWriteIn(RegWriteIDEX_EXMEM), 
+		.MemReadIn(MemReadIDEX_EXMEM), 
+		.MemWriteIn(MemWriteIDEX_EXMEM), 
+		.BranchIn(BranchIDEX_EXMEM), 
+		.MemToRegIn(MemtoRegIDEX_EXMEM), 
+		.RegWriteOut(RegWriteEXMEM_MEMWB), 
+		.MemReadOut(MemReadEXMEM_MEMWB), 
+		.MemWriteOut(MemWriteEXMEM_MEMWB), 
+		.BranchOut(BranchEXMEM_MEMWB), 
+		.MemToRegOut(MemtoRegEXMEM_MEMWB)); 
+ 
+	MemoryAccess MEM(.clock(clock), 
+		.ALUresult(ALUresult), 
+		.ALUzero(ALUzeroEXMEM_MEM); 
+		.dataMemWrite(DataMemWrite), 
+		.dataMemRead(DataMemRead), 
+		.controlMemWrite(MemWriteEXMEM_MEM), 
+		.controlMemRead(MemReadEXMEM_MEM), 
+		.controlBranch(BranchEXMEM_MEM), 
+		.PCSrc(PCSrc_MEM_IF),
+		.dataAddress(DataAddress)); 
+
+	MEMWB MEMWB (.clock(clock), 
+		.dataMemReadIn(DataMemRead), 
+		.dataMemReadOut(DataMemRead), 
+		.dataAddressIn(DataAddress), 
+		.dataAddressOut(DataAddress), 
+		.writeRegIn(writeRegEXMEM_MEMWB), 
+		.writeRegOut(writeRegMEMWB_ID), 
+		.MemToRegIn(MemtoRegEXMEM_MEMWB), 
+		.RegWriteIn(RegWriteEXMEM_MEMWB), 
+		.MemToRegOut(MemtoRegMEMWB_WB), 
+		.RegWriteOut(RegWriteMEMWB_ID)); 
+
+	WriteBack WB(.dataMemRead(DataMemRead), 
+		.dataAddress(DataAddress), 
+		.controlMemToReg(MemtoRegMEMWB_WB), 
+		.writeBack(writeBack)); 
+
+	Control control(.instruction(instructionIFID_ID), 
+		.Branch(BranchControlIDEX), 
+		.MemRead(MemReadControlIDEX), 
+		.MemtoReg(ALUopControlIDEX), 
+		.MemWrite(MemWriteControlIDEX), 
+		.ALUSrc(AluSrcControlIDEX), 
+		.RegWrite(RegWriteControlIDEX), 
+		.UnCondBranch(UnCondBranchControlIDEX),
+		.operation(ALUopControlIDEX)); 
+
+endmodule
+

@@ -1,0 +1,121 @@
+{C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/DatapathTEST.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/DatapathTEST.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module datapathTest
+
+Top level modules:
+	datapathTest
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/WriteBack.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/WriteBack.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module writeBack
+-- Compiling module mux
+
+Top level modules:
+	writeBack
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/MEMWB.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/MEMWB.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module MEMWB
+
+Top level modules:
+	MEMWB
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/Execute.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/Execute.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module execute
+-- Compiling module mux2
+-- Compiling module mux3
+-- Compiling module ALU
+
+Top level modules:
+	execute
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/Datapath.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/Datapath.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module datapath
+
+Top level modules:
+	datapath
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/InstructionFetch.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/InstructionFetch.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module instructionFetch
+-- Compiling module rom
+-- Compiling module add
+-- Compiling module muxIF
+-- Compiling module registerW
+
+Top level modules:
+	instructionFetch
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/HazardDetectionUnit.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/HazardDetectionUnit.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module hazardDetectionUnit
+
+Top level modules:
+	hazardDetectionUnit
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/IDEX.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/IDEX.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module IDEX
+
+Top level modules:
+	IDEX
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/InstructionDecoder.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/InstructionDecoder.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module instructionDecoder
+-- Compiling module registers
+-- Compiling module signExtend
+-- Compiling module muxID
+-- Compiling module equalsZero
+-- Compiling module shiftLeft2
+-- Compiling module add
+
+Top level modules:
+	instructionDecoder
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/ForwardingUnit.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/ForwardingUnit.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module forwardingUnit
+
+Top level modules:
+	forwardingUnit
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/EXMEM.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/EXMEM.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module EXMEM
+
+Top level modules:
+	EXMEM
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/Control.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/Control.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module control
+-- Compiling module AND
+-- Compiling module OR
+-- Compiling module aluControl
+-- Compiling module maincontrol
+-- Compiling module muxHDU
+
+Top level modules:
+	control
+	AND
+	OR
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/IFID.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/armv8_pipelined/IFID.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module IFID
+
+Top level modules:
+	IFID
+
+} {} {}} {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/MemoryAccess.v} {1 {vlog -work work -stats=none {C:/Users/32474/Documents/IIW/3BA/Computer architectuur/SingleCycle/MemoryAccess.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module memoryAccess
+-- Compiling module dataMemory
+
+Top level modules:
+	memoryAccess
+
+} {} {}}
